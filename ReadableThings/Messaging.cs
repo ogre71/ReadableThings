@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
 
@@ -9,7 +7,6 @@ namespace Ogresoft
 {
     public class Messages
     {
-
         private class Verb
         {
             public static string ThirdPerson(string verb)
@@ -193,7 +190,7 @@ namespace Ogresoft
             foreach (Match match in matches)
             {
                 string targetnum = match.Value.Substring(2);
-                string verb = targetnum.Substring(2, match.Value.Length - 5);
+                string verb = targetnum.Substring(1, match.Value.Length - 4);
 
                 targetnum = targetnum.Substring(0, 1);
 
@@ -212,7 +209,7 @@ namespace Ogresoft
             foreach (Match match in matches)
             {
                 string targetnum = match.Value.Substring(2);
-                string verb = targetnum.Substring(2, match.Value.Length - 5);
+                string verb = targetnum.Substring(1, match.Value.Length - 4);
 
                 targetnum = targetnum.Substring(0, 1);
 

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Ogresoft
 {
-    public delegate void ThingEventHandler(Thing sender, Thing thing); 
+    public delegate void ThingEventHandler(Thing sender, Thing thing);
 
     [Serializable]
     public partial class Thing : NameBase
@@ -36,11 +36,11 @@ namespace Ogresoft
         }
 
         public static List<Thing> FindThings(string name, List<Thing> container)
-                {
-                        string[] words = name.Split(' '); 
+        {
+            string[] words = name.Split(' ');
 
-                        return FindThings(words, container); 
-                }
+            return FindThings(words, container);
+        }
 
         public static List<Thing> FindThings(string[] words, List<Thing> container)
         {
@@ -60,7 +60,7 @@ namespace Ogresoft
         {
             List<Thing> output = new List<Thing>();
             output.AddRange(input);
-            return output; 
+            return output;
         }
 
         /// <summary>
@@ -93,45 +93,45 @@ namespace Ogresoft
         }
 
         /// <summary>
-                /// the name of each memeber of the list. 
-                /// </summary>
-                public static string[] Strings(List<Thing> things)
-                {
-                        string[] output = new string[things.Count]; 
-                        
-                        for(int i = 0; i < things.Count; i++)
-                                output[i] = things[i].Name;
+        /// the name of each memeber of the list. 
+        /// </summary>
+        public static string[] Strings(List<Thing> things)
+        {
+            string[] output = new string[things.Count];
 
-                        return output; 
-                }
+            for (int i = 0; i < things.Count; i++)
+                output[i] = things[i].Name;
 
-                /// <summary>Converts List<Thing> to string[] by retrieving the DefiniteName from each Thing.</summary>
-                public static string[] DefiniteStrings(List<Thing> things)
-                {
-                        string[] output = new string[things.Count];
-                        for(int i =0 ; i < things.Count; i++)
-                        {
-                                output[i] = things[i].DefiniteName;  
-                        }
-                        return output; 
-                }
-                
-                /// <summary>Converts List<Thing> to string[] by retrieving the IndefiniteName from each Thing.</summary>
-                public static string[] IndefiniteStrings(List<Thing> things)
-                {
-                                string[] output = new string[things.Count];
-                                for(int i =0 ; i < things.Count; i++)
-                                {
-                                        output[i] = things[i].IndefiniteName;  
-                                }
-                                return output; 
-                }
+            return output;
+        }
 
-                public static string IndefiniteStringsPrintable(List<Thing> things)
-                {
-                        string[] strings = IndefiniteStrings(things); 
-                        return FormatList(strings); 
-                }
+        /// <summary>Converts List<Thing> to string[] by retrieving the DefiniteName from each Thing.</summary>
+        public static string[] DefiniteStrings(List<Thing> things)
+        {
+            string[] output = new string[things.Count];
+            for (int i = 0; i < things.Count; i++)
+            {
+                output[i] = things[i].DefiniteName;
+            }
+            return output;
+        }
+
+        /// <summary>Converts List<Thing> to string[] by retrieving the IndefiniteName from each Thing.</summary>
+        public static string[] IndefiniteStrings(List<Thing> things)
+        {
+            string[] output = new string[things.Count];
+            for (int i = 0; i < things.Count; i++)
+            {
+                output[i] = things[i].IndefiniteName;
+            }
+            return output;
+        }
+
+        public static string IndefiniteStringsPrintable(List<Thing> things)
+        {
+            string[] strings = IndefiniteStrings(things);
+            return FormatList(strings);
+        }
 
         public static implicit operator string(Thing thing)
         {
@@ -198,12 +198,12 @@ namespace Ogresoft
                 Moved(this, destination);
         }
 
-        
+
         /// <summary>
         /// Event that is fired when this thing accepts another thing into its inventory.
         /// </summary>
         public event ThingEventHandler Accepted;
-        
+
         protected void OnAccepted(Thing acceptedThing)
         {
             if (Accepted != null)
@@ -381,7 +381,7 @@ namespace Ogresoft
         public InventoryHash Inventory
         {
             get { return locationMap; }
-            set { locationMap = value; } 
+            set { locationMap = value; }
         }
 
         protected string defaultKey = "in";
@@ -570,7 +570,7 @@ namespace Ogresoft
         public virtual bool Move(Thing destination, string location)
         {
             if (destination[location] == null)
-                destination.Add(location); 
+                destination.Add(location);
 
             //Chain of Responsibility...
             if (!WillAllowRelease(destination, location))
@@ -614,9 +614,9 @@ namespace Ogresoft
             Thing thing = new Thing();
             thing.Name = this.Name;
             thing.Inventory = this.Inventory.Clone();
-            return thing; 
+            return thing;
         }
-    }   
+    }
 }
 
 

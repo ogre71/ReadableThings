@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OgreOS
+namespace Ogresoft
 {
     public partial class Thing
     {
@@ -24,7 +24,7 @@ namespace OgreOS
         public Dictionary<string, string> _aliases = new Dictionary<string, string>();
         public Dictionary<string, List<string>> _adverbs = new Dictionary<string, List<string>>();
 
-        private void AddVerb(string verbName, Delegate thisDelegate)
+        public void AddVerb(string verbName, Delegate thisDelegate)
         {
             if (!_verbHash.ContainsKey(verbName))
                 _verbHash.Add(verbName, new Dictionary<Type, Delegate>());
@@ -188,6 +188,17 @@ namespace OgreOS
                 return false;
 
             return ((UseWithStrDelegate)_verbHash[verbName][typeof(UseWithStrDelegate)]).Invoke(str);
+        }
+
+        public string CompleteVerb(string verbName)
+        {
+            if (_verbHash.ContainsKey(verbName))
+            {
+                return verbName; 
+            }
+
+            string verb = _verbHash.Keys.Where(k => k.StartsWith(verbName)).FirstOrDefault();
+            return verb;
         }
     }
 }

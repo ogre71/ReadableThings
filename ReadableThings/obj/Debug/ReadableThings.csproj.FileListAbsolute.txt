@@ -1,5 +1,0 @@
-C:\Users\c-secrej\Desktop\Dungeon\Source\ReadableThings\ReadableThings\bin\Debug\ReadableThings.dll
-C:\Users\c-secrej\Desktop\Dungeon\Source\ReadableThings\ReadableThings\bin\Debug\ReadableThings.pdb
-C:\Users\c-secrej\Desktop\Dungeon\Source\ReadableThings\ReadableThings\obj\Debug\ReadableThings.csprojResolveAssemblyReference.cache
-C:\Users\c-secrej\Desktop\Dungeon\Source\ReadableThings\ReadableThings\obj\Debug\ReadableThings.dll
-C:\Users\c-secrej\Desktop\Dungeon\Source\ReadableThings\ReadableThings\obj\Debug\ReadableThings.pdb
