@@ -5,11 +5,13 @@ VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ogresoft.ReadableThings", "ReadableThings\Ogresoft.ReadableThings.csproj", "{823E83AE-EAB5-40BB-BC4E-D2538851E0E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ogresoft.Tasks", "Tasks\Ogresoft.Tasks.csproj", "{2D5CD74A-4419-4E72-960C-68C33102DD34}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ogresoft.Tasks", "Tasks\Ogresoft.Tasks.csproj", "{2D5CD74A-4419-4E72-960C-68C33102DD34}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Ogresoft.ReadableThings", "Test.Ogresoft.ReadableThings\Test.Ogresoft.ReadableThings.csproj", "{2108F5A2-8D90-4A1C-9A76-2C5FE25060D8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ogresoft.Parser", "Ogresoft.Parser\Ogresoft.Parser.csproj", "{5F281792-E152-471C-A6B2-DEA15BDA8492}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Ogresoft.Parser", "Test.Ogresoft.Parser\Test.Ogresoft.Parser.csproj", "{AEC64D7A-5BD1-45D4-859E-AFD2DDE49F0F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{5F281792-E152-471C-A6B2-DEA15BDA8492}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F281792-E152-471C-A6B2-DEA15BDA8492}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F281792-E152-471C-A6B2-DEA15BDA8492}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEC64D7A-5BD1-45D4-859E-AFD2DDE49F0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEC64D7A-5BD1-45D4-859E-AFD2DDE49F0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEC64D7A-5BD1-45D4-859E-AFD2DDE49F0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEC64D7A-5BD1-45D4-859E-AFD2DDE49F0F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

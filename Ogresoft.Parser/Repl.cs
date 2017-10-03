@@ -16,6 +16,23 @@ namespace Ogresoft.Parser
             this.adminThing = new AdminThing("some weirdo");
         }
 
+        public AdminThing AdminThing { get { return this.adminThing; } }
+
+        public void Shell()
+        {
+            while (true)
+            {
+                Console.Write("Zork>");
+                string input = Console.ReadLine();
+                if (input == "exit" || input == "quit")
+                {
+                    return;
+                }
+
+                Execute(input);
+            }
+        }
+
         public void Execute(string input)
         {
             Parse(input, this.adminThing); 
@@ -25,7 +42,8 @@ namespace Ogresoft.Parser
         {
             string[] words = input.Split(' ');
 
-            if (doer.AllowUseAlone(words[0]))
+            string verb = doer.CompleteVerb(words[0]);
+            if (doer.AllowUseAlone(verb))
             {
                 return;
             }

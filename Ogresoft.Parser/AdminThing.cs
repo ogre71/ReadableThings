@@ -20,7 +20,10 @@ namespace Ogresoft.Parser
         {
             base.Tell(message);
 
-            Console.WriteLine(message); 
+            Console.WriteLine(message);
+            this.LastMessage = message; 
         }
+
+        public string LastMessage { get; private set; }
     }
 }
