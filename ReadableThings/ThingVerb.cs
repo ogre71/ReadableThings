@@ -32,6 +32,14 @@ namespace Ogresoft
             _verbHash[verbName].Add(thisDelegate.GetType(), thisDelegate);
         }
 
+        public void AddVerb(string verbName, Func<bool> func)
+        {
+            if (!_verbHash.ContainsKey(verbName))
+                _verbHash.Add(verbName, new Dictionary<Type, Delegate>());
+
+            _verbHash[verbName].Add(typeof(AllowUseAloneDelegate), new AllowUseAloneDelegate(func));
+        }
+
         protected void AddAlias(string alias, string verbName)
         {
             _aliases.Add(alias, verbName);
