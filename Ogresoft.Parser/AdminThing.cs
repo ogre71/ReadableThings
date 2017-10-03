@@ -11,9 +11,16 @@ namespace Ogresoft.Parser
         public AdminThing(string name) : base(name)
         {
             this.AddVerb("look", new Func<bool>(() => {
-                Messages.Action("{N0} {v0look} around.");
+                Messages.Action("{O0} {v0look} around.", this);
                 return true;
             }));
+        }
+
+        public override void Tell(string message)
+        {
+            base.Tell(message);
+
+            Console.WriteLine(message); 
         }
     }
 }

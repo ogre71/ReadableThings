@@ -7,26 +7,32 @@ using Ogresoft;
 
 namespace Ogresoft.Parser
 {
-        public class Repl
+    public class Repl
+    {
+        private AdminThing adminThing;
+
+        public Repl()
         {
+            this.adminThing = new AdminThing("some weirdo");
+        }
 
-            public Repl()
+        public void Execute(string input)
+        {
+            Parse(input, this.adminThing); 
+        }
+
+        public void Parse(string input, Thing doer)
+        {
+            string[] words = input.Split(' ');
+
+            if (doer.AllowUseAlone(words[0]))
             {
-
+                return;
             }
 
-            public void Parse(string input, Thing doer)
-            {
-                string[] words = input.Split(' ');
-
-                if (doer.AllowUseAlone(words[0]))
-                {
-                    return;
-                }
-
-                doer.Tell(Messages.Nonsense());
-                // Assume first word is the verb
-                //if (doer.)
-            }//
-        }
+            doer.Tell(Messages.Nonsense());
+            // Assume first word is the verb
+            //if (doer.)
+        }//
+    }
 }
