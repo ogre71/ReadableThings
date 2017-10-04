@@ -40,6 +40,15 @@ namespace Ogresoft
             _verbHash[verbName].Add(typeof(AllowUseAloneDelegate), new AllowUseAloneDelegate(func));
         }
 
+        public void AddVerbWithDirectObject(string verbName, Func<Thing, Thing, bool> func)
+        {
+            if (!_verbHash.ContainsKey(verbName))
+                _verbHash.Add(verbName, new Dictionary<Type, Delegate>());
+
+            _verbHash[verbName].Add(typeof(AllowUsageAsDirObjDelegate), new AllowUsageAsDirObjDelegate(func));
+        }
+
+
         protected void AddAlias(string alias, string verbName)
         {
             _aliases.Add(alias, verbName);
@@ -86,6 +95,16 @@ namespace Ogresoft
             AllowUsageAsDirObjDelegate thisDelegate = (AllowUsageAsDirObjDelegate)_verbHash[verbName][typeof(AllowUsageAsDirObjDelegate)];
             return thisDelegate.Invoke(doer, this);
         }
+        public bool AllowUsageWithDirObj(string verbName, Thing dirObj)
+        {
+            if (!_verbHash.ContainsKey(verbName))
+                return false;
+
+            if (!_verbHash[verbName].ContainsKey(typeof(AllowUsageWithDirObjDelegate)))
+                return false;
+
+            return ((AllowUsageWithDirObjDelegate)_verbHash[verbName][typeof(AllowUsageWithDirObjDelegate)]).Invoke(dirObj);
+        }
 
         public bool AllowUsageWithAdverbialPhrase(string verbName, Thing indObj, string preposition)
         {
@@ -98,18 +117,7 @@ namespace Ogresoft
             AllowUsageWithAdverbialPhraseDelegate thisDelegate = (AllowUsageWithAdverbialPhraseDelegate)_verbHash[verbName][typeof(AllowUsageWithAdverbialPhraseDelegate)];
             return thisDelegate.Invoke(indObj, preposition);
         }
-
-        public bool AllowUsageWithDirObj(string verbName, Thing dirObj)
-        {
-            if (!_verbHash.ContainsKey(verbName))
-                return false;
-
-            if (!_verbHash[verbName].ContainsKey(typeof(AllowUsageWithDirObjDelegate)))
-                return false;
-
-            return ((AllowUsageWithDirObjDelegate)_verbHash[verbName][typeof(AllowUsageWithDirObjDelegate)]).Invoke(dirObj);
-        }
-
+        
         public bool AllowUsageAsIndObjInAdverbialPhrase(string verbName, Thing doer, string preposition)
         {
             if (!_verbHash.ContainsKey(verbName))
