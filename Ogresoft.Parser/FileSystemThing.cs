@@ -12,7 +12,17 @@ namespace Ogresoft.Parser
 
         public FileSystemThing(string name) : base(name)
         {
-            this.Path = Environment.CurrentDirectory; 
+            this.Path = Environment.CurrentDirectory;
+
+            string[] files = System.IO.Directory.GetFiles(Environment.CurrentDirectory);
+
+            IEnumerable<string> fileNames = GetFileNameWithoutPath(files);
+
+            foreach(string fileName in fileNames)
+            {
+                FileThing thing = new FileThing(fileName, this.Path);
+                thing.Move(this); 
+            }
         }
 
         public string Path { get; set; }
@@ -54,7 +64,6 @@ namespace Ogresoft.Parser
             return IEnumerableToString(fileNames);
         }
 
-        public override string Description => base.Description + "\n " + Environment.CurrentDirectory + "\n" + this.GetFiles();
-
+        //public override string Description => base.Description + "\n " + Environment.CurrentDirectory + "\n" + this.GetFiles();
     }
 }

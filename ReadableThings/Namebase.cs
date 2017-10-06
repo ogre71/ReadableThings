@@ -246,7 +246,7 @@ namespace Ogresoft
         {
             for (int i = 0; i < words.Length; i++)
             {
-                if (!baseName.ToLower().StartsWith(words[i]))
+                if (!baseName.ToLower().StartsWith(words[i].ToLower()))
                     continue;
 
                 if (i != 0)

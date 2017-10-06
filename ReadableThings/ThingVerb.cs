@@ -40,12 +40,12 @@ namespace Ogresoft
             _verbHash[verbName].Add(typeof(AllowUseAloneDelegate), new AllowUseAloneDelegate(func));
         }
 
-        public void AddVerbWithDirectObject(string verbName, Func<Thing, Thing, bool> func)
+        public void AddVerbWithDirectObject(string verbName, Func<Thing, bool> func)
         {
             if (!_verbHash.ContainsKey(verbName))
                 _verbHash.Add(verbName, new Dictionary<Type, Delegate>());
 
-            _verbHash[verbName].Add(typeof(AllowUsageAsDirObjDelegate), new AllowUsageAsDirObjDelegate(func));
+            _verbHash[verbName].Add(typeof(AllowUsageWithDirObjDelegate), new AllowUsageWithDirObjDelegate(func));
         }
 
 

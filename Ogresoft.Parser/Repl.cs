@@ -10,12 +10,13 @@ namespace Ogresoft.Parser
     public class Repl
     {
         private AdminThing adminThing;
-        private RoomThing roomThing; 
+        private FileSystemThing roomThing; 
 
         public Repl()
         {
             this.adminThing = new AdminThing("some weirdo");
-            this.roomThing = new RoomThing();
+            this.adminThing.Unique = true; 
+            this.roomThing = new FileSystemThing();
             this.adminThing.Move(this.roomThing); 
         }
 
@@ -73,19 +74,28 @@ namespace Ogresoft.Parser
 
             if (foundThings.Count == 0)
             {
-                doer.Tell("I can't find that."); 
+                doer.Tell("I can't find that.");
+                return; 
             }
 
             if (foundThings.Count > 1)
             {
-                doer.Tell("I'm confused."); 
+                doer.Tell("I'm confused, which one do you mean?");
+                return; 
             }
 
             var foundThing = foundThings[0];
 
             if (!foundThing.AllowUsageAsDirObj(verb, doer))
             {
+                var message = Messages.PersonalAction(doer, "{O0} can't {v" + verb + "} that.");
+                doer.Tell(message);
+                return; 
+            }
 
+            if (doer.AllowUsageWithDirObj(verb, foundThing))
+            {
+                return;
             }
 
             doer.Tell(Messages.Nonsense());

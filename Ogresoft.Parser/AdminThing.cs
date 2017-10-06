@@ -18,7 +18,7 @@ namespace Ogresoft.Parser
             }));
 
             this.AddVerb("inventory", new Func<bool>(() => {
-                var message = Messages.PersonalAction(this, "{O0} {v0do} not appear to be holding anything.", this);
+                var message = Messages.PersonalAction(this, "{O0} {v0do} not appear to be holding anything except: " + this.Inventory.Description + ".", this);
                 this.Tell(message); 
                 return true;
             }));
@@ -28,9 +28,9 @@ namespace Ogresoft.Parser
                 return true;
             }));
 
-            this.AddVerbWithDirectObject("take", new Func<Thing, Thing, bool>((doer, directObject) => {
-                Messages.PersonalAction(this, "What is it that you wish to take?");
-                return true;
+            this.AddVerbWithDirectObject("take", new Func<Thing, bool>((directObject) => {
+                Messages.Action("{O0} {v0take} {dt1}.", this, directObject);
+                return directObject.Move(this); 
             }));
 
             this.AddVerb("drop", new Func<bool>(() => {
