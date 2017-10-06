@@ -12,7 +12,7 @@ namespace Ogresoft.Parser
         {
             this.AddVerb("look", new Func<bool>(() => {
                 Messages.Action("{O0} {v0look} around.", this);
-                var message = Messages.PersonalAction(this, this.Container.Description);
+                var message = Messages.PersonalAction(this, this.Container.GetDescription(this));
                 this.Tell(message); 
                 return true;
             }));
@@ -37,6 +37,25 @@ namespace Ogresoft.Parser
                 Messages.PersonalAction(this, "But you aren't holding anything.");
                 return true;
             }));
+
+            this.AddVerbWithDirectObject("drop", new Func<Thing, bool>((directObject) => {
+               Messages.Action("{O0} {v0drop} {dt1}.", this, directObject);
+               return directObject.Move(this.Container);
+            }));
+
+            this.AddVerbWithDirectObject("go", new Func<Thing, bool>((directObject) => {
+                Exit exit = (Exit)directObject;
+                Messages.Action("{O0} {v0go} " + exit.Preposition + " {dt1}.", this, directObject);
+                bool success = this.Move(exit.GetDestination());
+                if (success)
+                {
+                    var message = Messages.PersonalAction(this, this.Container.GetDescription(this));
+                    this.Tell(message);
+                }
+
+                return success;
+            }));
+
         }
 
         public override void Tell(string message)

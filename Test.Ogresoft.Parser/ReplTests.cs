@@ -1,6 +1,5 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Ogresoft.Parser; 
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Ogresoft.Parser;
 
 namespace Test.Ogresoft.Parser
 {
@@ -12,7 +11,10 @@ namespace Test.Ogresoft.Parser
         {
             var parser = new Repl();
             parser.Execute("l");
-            Assert.IsTrue(parser.AdminThing.LastMessage == "You look around.");
+            var lastMessage = parser.AdminThing.LastMessage;
+
+            parser.Execute("look");
+            Assert.IsTrue(parser.AdminThing.LastMessage == lastMessage); 
         }
     }
 }

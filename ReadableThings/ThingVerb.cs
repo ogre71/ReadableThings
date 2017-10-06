@@ -48,6 +48,22 @@ namespace Ogresoft
             _verbHash[verbName].Add(typeof(AllowUsageWithDirObjDelegate), new AllowUsageWithDirObjDelegate(func));
         }
 
+        public void AddDirectObjectHandler(string verbName, Func<Thing, Thing, bool> handler)
+        {
+            if (!_verbHash.ContainsKey(verbName))
+                _verbHash.Add(verbName, new Dictionary<Type, Delegate>());
+
+            AllowUsageAsDirObjDelegate thisDelegate = new AllowUsageAsDirObjDelegate(handler);
+
+            if (!_verbHash[verbName].ContainsKey(typeof(AllowUsageAsDirObjDelegate)))
+            {
+                _verbHash[verbName].Add(typeof(AllowUsageAsDirObjDelegate), thisDelegate);
+            }
+            else
+            {
+                _verbHash[verbName][typeof(AllowUsageAsDirObjDelegate)] = thisDelegate;
+            }
+        }
 
         protected void AddAlias(string alias, string verbName)
         {
@@ -95,6 +111,9 @@ namespace Ogresoft
             AllowUsageAsDirObjDelegate thisDelegate = (AllowUsageAsDirObjDelegate)_verbHash[verbName][typeof(AllowUsageAsDirObjDelegate)];
             return thisDelegate.Invoke(doer, this);
         }
+
+
+
         public bool AllowUsageWithDirObj(string verbName, Thing dirObj)
         {
             if (!_verbHash.ContainsKey(verbName))

@@ -72,9 +72,17 @@ namespace Ogresoft.Parser
                 }
             }
 
+            foreach(Thing thing in doer.ShallowInventory)
+            {
+                if (thing.Matches(remainingWords))
+                {
+                    foundThings.Add(thing);
+                }
+            }
+
             if (foundThings.Count == 0)
             {
-                doer.Tell("I can't find that.");
+                doer.Tell(Messages.PersonalAction(doer, "I can't find {d1}", doer, new Thing(string.Join(" ", remainingWords))));
                 return; 
             }
 
@@ -88,7 +96,7 @@ namespace Ogresoft.Parser
 
             if (!foundThing.AllowUsageAsDirObj(verb, doer))
             {
-                var message = Messages.PersonalAction(doer, "{O0} can't {v" + verb + "} that.");
+                var message = Messages.PersonalAction(doer, "{O0} can't {v0" + verb + "} that.", doer);
                 doer.Tell(message);
                 return; 
             }

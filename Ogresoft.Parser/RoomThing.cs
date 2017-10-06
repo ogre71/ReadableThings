@@ -10,5 +10,7 @@ namespace Ogresoft.Parser
     {
         public RoomThing() : base("non-descript room") { }
 
+        public RoomThing(string name) : base(name) { }
+
     }
 }

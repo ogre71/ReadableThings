@@ -599,12 +599,12 @@ namespace Ogresoft
 
         public override string Description
         {
-            get { return base.Description + locationMap.Description; }
+            get { return base.Description; }
         }
 
         public virtual string GetDescription(Thing observer)
         {
-            return base.Description + "\n " + Inventory.GetDescription(observer);
+            return base.Description + "\r\n " + Inventory.GetDescription(observer);
         }
 
         public Thing Clone()

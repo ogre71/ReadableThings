@@ -1,69 +1,65 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ogresoft.Parser
 {
     public class FileSystemThing : Thing
     {
-        public FileSystemThing() : this("FileSystem") { }
+        public FileSystemThing() : this("FileSystem", Environment.CurrentDirectory) { }
 
-        public FileSystemThing(string name) : base(name)
+        public FileSystemThing(string name, string path) : base(name)
         {
-            this.Path = Environment.CurrentDirectory;
+            this.Path = path;
 
-            string[] files = System.IO.Directory.GetFiles(Environment.CurrentDirectory);
+            IEnumerable<string> files = System.IO.Directory.EnumerateFiles(this.Path);
+            IEnumerable<string> fileNames = files.Select(s => System.IO.Path.GetFileName(s));
+            IEnumerable<FileThing> fileThings = fileNames.Select(s => new FileThing(s, this.Path));
+            fileThings.ToList().ForEach(fileThing => fileThing.Move(this));
 
-            IEnumerable<string> fileNames = GetFileNameWithoutPath(files);
-
-            foreach(string fileName in fileNames)
+            IEnumerable<string> directories = System.IO.Directory.EnumerateDirectories(this.Path);
+            directories.ToList().ForEach(d =>
             {
-                FileThing thing = new FileThing(fileName, this.Path);
-                thing.Move(this); 
+                string directoryName = System.IO.Path.GetFileName(d);
+                var exit = new Exit(directoryName, () => new FileSystemThing(directoryName, d));
+                exit.Move(this);
+            });
+
+            var parent = System.IO.Directory.GetParent(this.Path); 
+            if (parent == null)
+            {
+                return; 
             }
+
+            var up = new Exit("up", () => new FileSystemThing(System.IO.Path.GetFileName(parent.Name), parent.FullName));
+            up.Move(this); 
         }
 
         public string Path { get; set; }
 
-        private IEnumerable<string> GetFileNameWithoutPath(string[] filePaths)
+        private IEnumerable<string> AddCommasOrAnd(IEnumerable<string> input)
         {
-            foreach (string filePath in filePaths)
+            var enumerator = input.GetEnumerator();
+            yield return enumerator.Current;
+
+            enumerator.MoveNext(); 
+            string previous = enumerator.Current;
+            
+            while(enumerator.MoveNext())
             {
-                yield return System.IO.Path.GetFileName(filePath);
-            }
-        }
-
-        private string IEnumerableToString(IEnumerable<string> enumerableStrings)
-        {
-            string outputString = string.Empty;
-            string lastElement = null;
-
-            foreach (string element in enumerableStrings)
-            {
-                if (outputString != string.Empty)
-                {
-                    outputString += ", ";
-                }
-
-                outputString += lastElement;
-                lastElement = element;
+                yield return ", " + previous;
+                previous = enumerator.Current; 
             }
 
-            outputString += ", and " + lastElement;
-            return outputString;
+            yield return ", and " + previous;
         }
 
         private string GetFiles()
         {
-            string[] files = System.IO.Directory.GetFiles(Environment.CurrentDirectory);
+            IEnumerable<string> fileNames = System.IO.Directory.GetFiles(Environment.CurrentDirectory)
+                .Select(s => System.IO.Path.GetFileName(s));
 
-            IEnumerable<string> fileNames = GetFileNameWithoutPath(files);
-
-            return IEnumerableToString(fileNames);
+            return string.Join("", AddCommasOrAnd(fileNames));
         }
-
-        //public override string Description => base.Description + "\n " + Environment.CurrentDirectory + "\n" + this.GetFiles();
     }
 }
