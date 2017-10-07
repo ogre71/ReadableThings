@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,8 @@ namespace Ogresoft.Parser
 {
     public class Repl
     {
+        public const string Garbage = "I don't know how to '{0}'";
+
         private AdminThing adminThing;
         private FileSystemThing roomThing; 
 
@@ -22,7 +25,7 @@ namespace Ogresoft.Parser
 
         public AdminThing AdminThing { get { return this.adminThing; } }
 
-        public void Shell()
+        public Exception Shell()
         {
             while (true)
             {
@@ -30,10 +33,17 @@ namespace Ogresoft.Parser
                 string input = Console.ReadLine();
                 if (input == "exit" || input == "quit")
                 {
-                    return;
+                    return null;
                 }
 
-                Execute(input);
+                try
+                {
+                    Execute(input);
+                }
+                catch(Exception ex)
+                {
+                    return ex;
+                }
             }
         }
 
@@ -53,12 +63,22 @@ namespace Ogresoft.Parser
             }
 
             string verb = doer.CompleteVerb(words[0]);
+
+            if (verb == null)
+            {
+                doer.Tell(string.Format(Garbage, words[0]));
+                return; 
+            }
+
             if (words.Length == 1)
             {
                 if (doer.AllowUseAlone(verb))
                 {
                     return;
                 }
+
+                Debug.Assert(false); 
+                return; 
             }
 
             List<string> remainingWords = words.Skip(1).ToList<string>();
@@ -82,7 +102,7 @@ namespace Ogresoft.Parser
 
             if (foundThings.Count == 0)
             {
-                doer.Tell(Messages.PersonalAction(doer, "I can't find {d1}", doer, new Thing(string.Join(" ", remainingWords))));
+                doer.Tell(Messages.PersonalAction(doer, "I can't find {dt1}.", doer, new Thing(string.Join(" ", remainingWords))));
                 return; 
             }
 

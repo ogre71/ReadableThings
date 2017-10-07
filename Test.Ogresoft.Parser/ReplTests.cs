@@ -16,5 +16,17 @@ namespace Test.Ogresoft.Parser
             parser.Execute("look");
             Assert.IsTrue(parser.AdminThing.LastMessage == lastMessage); 
         }
+
+        [TestMethod]
+        public void ReplShouldHandleGarbage()
+        {
+            var repl = new Repl();
+            string garbageString = "thisisgarbage"; 
+            repl.Execute(garbageString);
+            var lastMessage = repl.AdminThing.LastMessage;
+
+            Assert.IsTrue(repl.AdminThing.LastMessage == string.Format(Repl.Garbage, garbageString));
+
+        }
     }
 }

@@ -377,7 +377,7 @@ namespace Ogresoft
             matches = RegExps.dativePronouns.Matches(actionString);
             foreach (Match match in matches)
             {
-                int i = System.Int32.Parse(match.Value.Substring(2));
+                int i = System.Int32.Parse(match.Value.Substring(2, match.Value.Length - 3));
 
                 if (things[i] == thing)
                 {
