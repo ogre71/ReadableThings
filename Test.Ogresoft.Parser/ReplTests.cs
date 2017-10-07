@@ -26,7 +26,15 @@ namespace Test.Ogresoft.Parser
             var lastMessage = repl.AdminThing.LastMessage;
 
             Assert.IsTrue(repl.AdminThing.LastMessage == string.Format(Repl.Garbage, garbageString));
+        }
 
+        [TestMethod]
+        public void ShouldSerialize()
+        {
+            var repl = new Repl();
+            var serialized = repl.Serialize();
+            System.Console.WriteLine(serialized); 
+            Assert.IsTrue(serialized != null); 
         }
     }
 }

@@ -454,8 +454,6 @@ namespace Ogresoft
                 return "herself";
             }
         }
-
-
     }
 }
 

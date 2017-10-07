@@ -45,7 +45,7 @@
     <Compile Include="Gender.cs" />
     <Compile Include="InventoryHash.cs" />
     <Compile Include="Messaging.cs" />
-    <Compile Include="Namebase.cs" />
+    <Compile Include="NameBase.cs" />
     <Compile Include="Opacity.cs" />
     <Compile Include="Thing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

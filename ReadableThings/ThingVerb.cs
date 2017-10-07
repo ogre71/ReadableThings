@@ -20,8 +20,13 @@ namespace Ogresoft
         public delegate bool UseWithAdverbialPhraseDelegate(Thing indObj, string preposition);
         public delegate bool UseWithStrDelegate(string str);
 
+        [NonSerialized]
         public Dictionary<string, Dictionary<Type, Delegate>> _verbHash = new Dictionary<string, Dictionary<Type, Delegate>>();
+
+        [NonSerialized]
         public Dictionary<string, string> _aliases = new Dictionary<string, string>();
+
+        [NonSerialized]
         public Dictionary<string, List<string>> _adverbs = new Dictionary<string, List<string>>();
 
         public void AddVerb(string verbName, Delegate thisDelegate)

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Ogresoft;
 
 namespace Ogresoft.Parser
@@ -25,14 +26,33 @@ namespace Ogresoft.Parser
 
         public AdminThing AdminThing { get { return this.adminThing; } }
 
+        public string Serialize()
+        {
+            string serializedAdmin = JsonConvert.SerializeObject(this.adminThing, Formatting.Indented, new JsonSerializerSettings
+            {
+                PreserveReferencesHandling = PreserveReferencesHandling.All
+            });
+
+            return serializedAdmin;
+
+        }
+
+
         public Exception Shell()
         {
+
             while (true)
             {
                 Console.Write("Zork>");
                 string input = Console.ReadLine();
                 if (input == "exit" || input == "quit")
                 {
+                    var serialized = Serialize();
+
+                    var tempFileName = System.IO.Path.GetTempFileName();
+                    System.IO.File.WriteAllLines(tempFileName, new string[] { serialized });
+                    Process.Start("notepad", tempFileName);
+
                     return null;
                 }
 
