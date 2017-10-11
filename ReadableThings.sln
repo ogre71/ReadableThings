@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ogresoft.Parser", "Ogresoft
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Ogresoft.Parser", "Test.Ogresoft.Parser\Test.Ogresoft.Parser.csproj", "{AEC64D7A-5BD1-45D4-859E-AFD2DDE49F0F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ogresoft.Core", "Ogresoft.Core\Ogresoft.Core.csproj", "{01533FDB-094B-4640-8623-2B7580D6500C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{AEC64D7A-5BD1-45D4-859E-AFD2DDE49F0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEC64D7A-5BD1-45D4-859E-AFD2DDE49F0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEC64D7A-5BD1-45D4-859E-AFD2DDE49F0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01533FDB-094B-4640-8623-2B7580D6500C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01533FDB-094B-4640-8623-2B7580D6500C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01533FDB-094B-4640-8623-2B7580D6500C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01533FDB-094B-4640-8623-2B7580D6500C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
