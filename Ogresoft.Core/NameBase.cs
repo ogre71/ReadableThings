@@ -1,8 +1,7 @@
 ﻿
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Ogresoft
 {
@@ -105,70 +104,46 @@ namespace Ogresoft
 
         public NameBase() { }
 
-        /// <summary>Used to determine if "some" should be used instead of the indefinite article "a/an"</summary>
-        /// <remarks>Fred eats some food as opposed to fred eats a food.</remarks>
-        private bool aggregate = false;
-        public bool Aggregate
+        public NameBase(string name)
         {
-            get { return aggregate; }
-            set { aggregate = value; }
+            this.Name = name; 
         }
 
-        private bool hasIrregularPlural = false;
+        public NameBase(string name, string postAdjectives)
+        {
+            this.Name = name;
+            this.PostAdjs = postAdjectives.Split(' ');
+        }
+
+        /// <summary>Used to determine if "some" should be used instead of the indefinite article "a/an"</summary>
+        /// <remarks>Fred eats some food as opposed to fred eats a food.</remarks>
+        public bool Aggregate { get; set; }
+
         /// <summary>
         /// Indicates that the Thing has an irregular plural. 
         /// </summary>
-        public bool HasIrregularPlural
-        {
-            get { return hasIrregularPlural; }
-            set { hasIrregularPlural = value; }
-        }
+        public bool HasIrregularPlural { get; set; }
 
         /// <summary>Used to determine if the indefinite article is appropriate.</summary>
         /// <remarks>Fred and a dead orc. Fred is unique, the dead orc is not.</remarks>
-        private bool unique = false;
-        public virtual bool Unique
-        {
-            get { return unique; }
-            set { unique = value; }
-        }
+        public virtual bool Unique { get; set; }
 
-        private string[] adjs;
-        public string[] Adjs
-        {
-            get { return adjs; }
-            set { adjs = value; }
-        }
+        public string[] Adjs { get; set; }
 
-        private string[] postAdjs;
         /// <summary>
         /// Modifiers that appear after the base noun. 
         /// </summary>
-        public string[] PostAdjs
-        {
-            get { return postAdjs; }
-            set { postAdjs = value; }
-        }
+        public string[] PostAdjs { get; set; }
 
-        private string pluralBaseName = "";
         /// <summary>
         /// The noun that will be used to describe the Thing in the plural. 
         /// </summary>
-        public string PluralBaseName
-        {
-            get { return pluralBaseName; }
-            set { pluralBaseName = value; }
-        }
+        public string PluralBaseName { get; set; }
 
-        private string baseName = "";
         /// <summary>
         /// The base noun that matches this Thing. 
         /// </summary>
-        public string BaseName
-        {
-            get { return baseName; }
-            set { baseName = value; }
-        }
+        public string BaseName { get; set; }
 
         private string description;
         /// <summary>
@@ -183,16 +158,12 @@ namespace Ogresoft
 
                 return "It looks just like every other " + this.Name + " that you've ever seen.";
             }
+
             set { description = value; }
         }
 
         /// <summary>Enumerated value representing gender.</summary>
-        private Gender gender = Gender.neuter;
-        public Gender Gender
-        {
-            get { return gender; }
-            set { gender = value; }
-        }
+        public Gender Gender { get; set; } = Gender.neuter;
 
         /// <summary>Gets or sets the full name of the object, including adjectives and id.</summary>
         public virtual string Name
@@ -242,11 +213,17 @@ namespace Ogresoft
             return Matches(strings);
         }
 
-        public bool Matches(string[] words)
+        public bool Matches(string[] words2)
         {
-            for (int i = 0; i < words.Length; i++)
+            List<string> workingWords = words2.Where(w => w != "the").ToList();
+            workingWords = workingWords.Select(w => w.ToLower()).ToList();
+
+            for (int i = 0; i < workingWords.Count; i++)
             {
-                if (!baseName.ToLower().StartsWith(words[i].ToLower()))
+                string workingWord = workingWords[i];
+                workingWord = workingWord.Replace("!", ""); 
+
+                if (!this.BaseName.ToLower().StartsWith(workingWord.ToLower()))
                     continue;
 
                 if (i != 0)
@@ -254,20 +231,20 @@ namespace Ogresoft
                     string[] adjs = new string[i];
 
                     for (int j = 0; j < i; j++)
-                        adjs[j] = words[j];
+                        adjs[j] = workingWords[j];
 
-                    if (!CompareStringArrays(adjs, this.adjs))
+                    if (!CompareStringArrays(adjs, this.Adjs))
                         continue;
                 }
 
-                if (i != words.Length - 1)
+                if (i != workingWords.Count - 1)
                 {
-                    string[] post_adjs = new string[words.Length - i - 1];
+                    string[] post_adjs = new string[workingWords.Count - i - 1];
 
-                    for (int j = i + 1; j < words.Length; j++)
-                        post_adjs[j - 1 - i] = words[j];
+                    for (int j = i + 1; j < workingWords.Count; j++)
+                        post_adjs[j - 1 - i] = workingWords[j];
 
-                    if (!CompareStringArrays(post_adjs, postAdjs))
+                    if (!CompareStringArrays(post_adjs, this.PostAdjs))
                         continue;
                 }
 
