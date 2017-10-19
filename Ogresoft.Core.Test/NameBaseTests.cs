@@ -110,10 +110,5 @@ namespace Ogresoft.Core.Test
             Assert.IsTrue(nameBase.Matches("r b"));
         }
 
-        [TestMethod]
-        public void SomethingShouldDoSomething()
-        {
-            Assert.IsTrue(false);
-        }
     }
 }
