@@ -81,7 +81,39 @@ namespace Ogresoft.Core.Test
             Assert.IsFalse(nameBase.Matches("Bob fourthh"));
             Assert.IsFalse(nameBase.Matches("bob minion fOuRth"));
             Assert.IsFalse(nameBase.Matches("bob minion the fOuR"));
+        }
 
+        [TestMethod]
+        public void NameBaseShouldMatchWithoutAdjective()
+        {
+            NameBase nameBase = new NameBase("Red Bob");
+            Assert.IsTrue(nameBase.Matches("Bob"));
+        }
+
+        [TestMethod]
+        public void NameBaseShouldNotMatchWitIncorrectAdjective()
+        {
+            NameBase nameBase = new NameBase("Red Bob");
+            Assert.IsFalse(nameBase.Matches("Blue Bob"));
+        }
+
+        [TestMethod]
+        public void NameBaseShouldMatchWithCorrectAdjective()
+        {
+            NameBase nameBase = new NameBase("Red Bob");
+            Assert.IsTrue(nameBase.Matches("Red Bob"));
+            Assert.IsTrue(nameBase.Matches("red Bob"));
+            Assert.IsTrue(nameBase.Matches("Re Bob"));
+            Assert.IsTrue(nameBase.Matches("re Bob"));
+            Assert.IsTrue(nameBase.Matches("R Bob"));
+            Assert.IsTrue(nameBase.Matches("r Bob"));
+            Assert.IsTrue(nameBase.Matches("r b"));
+        }
+
+        [TestMethod]
+        public void SomethingShouldDoSomething()
+        {
+            Assert.IsTrue(false);
         }
     }
 }
