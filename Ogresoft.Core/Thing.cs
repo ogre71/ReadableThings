@@ -7,8 +7,6 @@ namespace Ogresoft
 
     public partial class Thing : NameBase
     {
-
-
         public static Thing Find(string name, List<Thing> container)
         {
             List<Thing> output = FindThings(name, container);
@@ -170,7 +168,6 @@ namespace Ogresoft
         {
             this.guid = guid;
             this.Name = name;
-
         }
 
         /// <summary>
@@ -564,8 +561,13 @@ namespace Ogresoft
 
         public virtual bool Move(Thing destination, string location)
         {
+            if (!destination.Inventory.ContainsKey(location))
+            {
+                destination.Inventory.Add(location);
+            }
+
             if (destination[location] == null)
-                destination.Add(location);
+                destination.Inventory.Add(location);
 
             //Chain of Responsibility...
             if (!WillAllowRelease(destination, location))

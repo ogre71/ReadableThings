@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ogresoft;
 using Ogresoft.Parser;
 
-namespace Test.Ogresoft.Parser
+namespace Ogresoft.Parser.Test
 {
     [TestClass]
     public class AdminThingTests
@@ -19,7 +19,7 @@ namespace Test.Ogresoft.Parser
             uselessThing.AddDirectObjectHandler("take", new Func<Thing, Thing, bool>((taker, myself) => { return true; }));
             uselessThing.Move(roomThing);
 
-            Repl repl = new Repl();
+            Parser repl = new Parser();
             repl.Parse("look", adminThing);
 
             Assert.IsFalse(adminThing.ShallowInventory.Contains(uselessThing));
@@ -49,7 +49,7 @@ namespace Test.Ogresoft.Parser
 
             uselessThing.Move(roomThing);
 
-            Repl repl = new Repl();
+            Parser repl = new Parser();
             repl.Parse("look", adminThing);
 
             Assert.IsFalse(adminThing.ShallowInventory.Contains(uselessThing));
@@ -79,13 +79,12 @@ namespace Test.Ogresoft.Parser
 
             Assert.IsTrue(adminThing.Container == room1);
 
-            Repl repl = new Repl();
+            Parser repl = new Parser();
             repl.Parse("l", adminThing);
             repl.Parse("go portal", adminThing);
 
             Assert.IsTrue(adminThing.Container == room2); 
         }
-
 
         [TestMethod]
         public void GoShouldWork2()
@@ -104,10 +103,39 @@ namespace Test.Ogresoft.Parser
 
             //Assert.IsTrue(adminThing.Container == room1);
 
-            Repl repl = new Repl();
+            Parser repl = new Parser();
             repl.Parse("l", repl.AdminThing);
         }
 
 
+        [TestMethod]
+        public void ShouldPutRockOnTable()
+        {
+            var adminThing = new AdminThing("some weirdo");
+            var roomThing = new RoomThing();
+            adminThing.Move(roomThing); 
+            var tableThing = new AdminThing("ordinary table");
+            tableThing.Unique = false;
+            var rockThing = new AdminThing("rock");
+
+            Parser repl = new Parser();
+            repl.Parse("take rock", repl.AdminThing);
+            repl.Parse("put rock on table", repl.AdminThing);
+        }
+
+        [TestMethod]
+        public void TakeShouldCommunicate()
+        {
+            var adminThing = new AdminThing("some weirdo");
+            var roomThing = new RoomThing();
+            adminThing.Move(roomThing);
+
+            Parser repl = new Parser();
+
+            var lastMessage = adminThing.LastMessage; 
+            repl.Parse("take ugly dead fish", adminThing);
+
+            Assert.IsTrue(adminThing.LastMessage != lastMessage); 
+        }
     }
 }

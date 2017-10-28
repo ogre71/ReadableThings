@@ -2,21 +2,18 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Ogresoft;
 
 namespace Ogresoft.Parser
 {
-    public class Repl
+    public class Parser
     {
         public const string Garbage = "I don't know how to '{0}'";
 
         private AdminThing adminThing;
         private FileSystemThing roomThing; 
 
-        public Repl()
+        public Parser()
         {
             this.adminThing = new AdminThing("some weirdo");
             this.adminThing.Unique = true; 
@@ -30,13 +27,12 @@ namespace Ogresoft.Parser
         {
             string serializedAdmin = JsonConvert.SerializeObject(this.adminThing, Formatting.Indented, new JsonSerializerSettings
             {
-                PreserveReferencesHandling = PreserveReferencesHandling.All
+                PreserveReferencesHandling = PreserveReferencesHandling.All,
+                
             });
 
             return serializedAdmin;
-
         }
-
 
         public Exception Shell()
         {

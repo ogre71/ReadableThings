@@ -24,7 +24,8 @@ namespace Ogresoft.Parser
             }));
 
             this.AddVerb("take", new Func<bool>(() => {
-                Messages.PersonalAction(this, "What is it that you wish to take?");
+                var message = Messages.PersonalAction(this, "What is it that you wish to take?");
+                this.Tell(message); 
                 return true;
             }));
 

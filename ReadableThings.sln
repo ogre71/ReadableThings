@@ -1,25 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ogresoft.ReadableThings", "ReadableThings\Ogresoft.ReadableThings.csproj", "{823E83AE-EAB5-40BB-BC4E-D2538851E0E0}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ogresoft.Tasks", "Tasks\Ogresoft.Tasks.csproj", "{2D5CD74A-4419-4E72-960C-68C33102DD34}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Ogresoft.ReadableThings", "Test.Ogresoft.ReadableThings\Test.Ogresoft.ReadableThings.csproj", "{2108F5A2-8D90-4A1C-9A76-2C5FE25060D8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ogresoft.Parser", "Ogresoft.Parser\Ogresoft.Parser.csproj", "{5F281792-E152-471C-A6B2-DEA15BDA8492}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Ogresoft.Parser", "Test.Ogresoft.Parser\Test.Ogresoft.Parser.csproj", "{AEC64D7A-5BD1-45D4-859E-AFD2DDE49F0F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ogresoft.Core", "Ogresoft.Core\Ogresoft.Core.csproj", "{01533FDB-094B-4640-8623-2B7580D6500C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ogresoft.Core.Test", "Ogresoft.Core.Test\Ogresoft.Core.Test.csproj", "{51EEE757-E71B-4D97-8754-95A1B956D858}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ogresoft.Repl", "Ogresoft.Repl\Ogresoft.Repl.csproj", "{97C65027-93A2-431E-9BF3-C8CD16EF0E76}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ogresoft.Repl", "Ogresoft.Repl\Ogresoft.Repl.csproj", "{97C65027-93A2-431E-9BF3-C8CD16EF0E76}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ogresoft.Repl.Test", "Ogresoft.Repl.Test\Ogresoft.Repl.Test.csproj", "{B4D7CC24-B21F-4C93-B4C3-FA96B7858E12}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ogresoft.Repl.Test", "Ogresoft.Repl.Test\Ogresoft.Repl.Test.csproj", "{B4D7CC24-B21F-4C93-B4C3-FA96B7858E12}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{ECC67828-46C0-47C5-9576-336092015043}"
 	ProjectSection(SolutionItems) = preProject
@@ -32,26 +24,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{823E83AE-EAB5-40BB-BC4E-D2538851E0E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{823E83AE-EAB5-40BB-BC4E-D2538851E0E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{823E83AE-EAB5-40BB-BC4E-D2538851E0E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{823E83AE-EAB5-40BB-BC4E-D2538851E0E0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2D5CD74A-4419-4E72-960C-68C33102DD34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2D5CD74A-4419-4E72-960C-68C33102DD34}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D5CD74A-4419-4E72-960C-68C33102DD34}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D5CD74A-4419-4E72-960C-68C33102DD34}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2108F5A2-8D90-4A1C-9A76-2C5FE25060D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2108F5A2-8D90-4A1C-9A76-2C5FE25060D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2108F5A2-8D90-4A1C-9A76-2C5FE25060D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2108F5A2-8D90-4A1C-9A76-2C5FE25060D8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5F281792-E152-471C-A6B2-DEA15BDA8492}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5F281792-E152-471C-A6B2-DEA15BDA8492}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5F281792-E152-471C-A6B2-DEA15BDA8492}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5F281792-E152-471C-A6B2-DEA15BDA8492}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AEC64D7A-5BD1-45D4-859E-AFD2DDE49F0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AEC64D7A-5BD1-45D4-859E-AFD2DDE49F0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AEC64D7A-5BD1-45D4-859E-AFD2DDE49F0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AEC64D7A-5BD1-45D4-859E-AFD2DDE49F0F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{01533FDB-094B-4640-8623-2B7580D6500C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{01533FDB-094B-4640-8623-2B7580D6500C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01533FDB-094B-4640-8623-2B7580D6500C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -71,5 +47,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4DB4ECC5-EBEE-48B2-918E-7C2EA5A9778E}
 	EndGlobalSection
 EndGlobal

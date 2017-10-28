@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ogresoft.Parser;
 
-namespace Test.Ogresoft.Parser
+namespace Ogresoft.Parser.Test
 {
     [TestClass]
     public class ReplTests
@@ -9,7 +9,7 @@ namespace Test.Ogresoft.Parser
         [TestMethod]
         public void ReplShouldAutoCompleteVerbs()
         {
-            var parser = new Repl();
+            var parser = new Parser();
             parser.Execute("l");
             var lastMessage = parser.AdminThing.LastMessage;
 
@@ -20,18 +20,18 @@ namespace Test.Ogresoft.Parser
         [TestMethod]
         public void ReplShouldHandleGarbage()
         {
-            var repl = new Repl();
+            var repl = new Parser();
             string garbageString = "thisisgarbage"; 
             repl.Execute(garbageString);
             var lastMessage = repl.AdminThing.LastMessage;
 
-            Assert.IsTrue(repl.AdminThing.LastMessage == string.Format(Repl.Garbage, garbageString));
+            Assert.IsTrue(repl.AdminThing.LastMessage == string.Format(Parser.Garbage, garbageString));
         }
 
         [TestMethod]
         public void ShouldSerialize()
         {
-            var repl = new Repl();
+            var repl = new Parser();
             var serialized = repl.Serialize();
             System.Console.WriteLine(serialized); 
             Assert.IsTrue(serialized != null); 
