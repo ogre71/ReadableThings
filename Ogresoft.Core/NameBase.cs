@@ -1,4 +1,5 @@
 ﻿
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -117,18 +118,18 @@ namespace Ogresoft
 
         /// <summary>Used to determine if "some" should be used instead of the indefinite article "a/an"</summary>
         /// <remarks>Fred eats some food as opposed to fred eats a food.</remarks>
-        public bool Aggregate { get; set; }
+        public bool Aggregate { get; set; } = false;
 
         /// <summary>
         /// Indicates that the Thing has an irregular plural. 
         /// </summary>
-        public bool HasIrregularPlural { get; set; }
+        public bool HasIrregularPlural { get; set; } = false; 
 
         /// <summary>Used to determine if the indefinite article is appropriate.</summary>
         /// <remarks>Fred and a dead orc. Fred is unique, the dead orc is not.</remarks>
         public virtual bool Unique { get; set; }
 
-        public string[] Adjs { get; set; }
+        public List<string> Adjs { get; set; }
 
         /// <summary>
         /// Modifiers that appear after the base noun. 
@@ -165,6 +166,7 @@ namespace Ogresoft
         /// <summary>Enumerated value representing gender.</summary>
         public Gender Gender { get; set; } = Gender.neuter;
 
+        [JsonIgnore]
         /// <summary>Gets or sets the full name of the object, including adjectives and id.</summary>
         public virtual string Name
         {
@@ -197,11 +199,11 @@ namespace Ogresoft
 
                 if (input.Length < 2)
                     return;
-                Adjs = new string[input.Length - 1];
+                Adjs = new List<string>(); // new string[input.Length - 1];
 
                 for (int i = 0; i < length - 1; i++)
-                    Adjs[i] = input[i];
-
+                    //Adjs[i] = input[i];
+                    Adjs.Insert(i, input[i]); 
             }
         }
 
@@ -233,7 +235,7 @@ namespace Ogresoft
                     for (int j = 0; j < i; j++)
                         adjs[j] = workingWords[j];
 
-                    if (!CompareStringArrays(adjs, this.Adjs))
+                    if (!CompareStringArrays(adjs, this.Adjs.ToArray()))
                         continue;
                 }
 
@@ -268,6 +270,7 @@ namespace Ogresoft
             return System.Enum.GetName(typeof(Gender), Gender);
         }
 
+        [JsonIgnore]
         /// <summary>
         /// Retrieves the name without the PostAdj modifiers. 
         /// </summary>
@@ -284,6 +287,7 @@ namespace Ogresoft
             }
         }
 
+        [JsonIgnore]
         /// <summary>
         /// The possessive name of the Thing. 
         /// </summary>
@@ -299,6 +303,7 @@ namespace Ogresoft
             }
         }
 
+        [JsonIgnore]
         /// <summary>
         /// The possessive name associated with the definite article. 
         /// </summary>
@@ -314,6 +319,7 @@ namespace Ogresoft
             }
         }
 
+        [JsonIgnore]
         /// <summary>
         /// The possessive name associated with the indefinite article 
         /// </summary>
@@ -329,6 +335,7 @@ namespace Ogresoft
             }
         }
 
+        [JsonIgnore]
         /// <summary>Prepends the indefinite article to the name. </summary>
         public virtual string IndefiniteName
         {
@@ -343,6 +350,7 @@ namespace Ogresoft
             }
         }
 
+        [JsonIgnore]
         /// <summary>Prepends the definite article to the name.</summary>
         public virtual string DefiniteName
         {
@@ -352,6 +360,7 @@ namespace Ogresoft
             }
         }
 
+        [JsonIgnore]
         /// <summary>
         /// The possessive pronoun for this Thing. 
         /// </summary>
@@ -372,6 +381,7 @@ namespace Ogresoft
             }
         }
 
+        [JsonIgnore]
         /// <summary>
         /// The pronoun in the dative case(indirect object). 
         /// </summary>
@@ -392,6 +402,7 @@ namespace Ogresoft
             }
         }
 
+        [JsonIgnore]
         /// <summary>
         /// The pronoun in the nominative case (subject). 
         /// </summary>
@@ -412,6 +423,7 @@ namespace Ogresoft
             }
         }
 
+        [JsonIgnore]
         /// <summary>
         /// The reflexive pronoun appropriate for use with this thing. 
         /// </summary>

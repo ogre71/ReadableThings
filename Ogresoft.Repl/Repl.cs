@@ -25,12 +25,7 @@ namespace Ogresoft.Parser
 
         public string Serialize()
         {
-            string serializedAdmin = JsonConvert.SerializeObject(this.adminThing, Formatting.Indented, new JsonSerializerSettings
-            {
-                PreserveReferencesHandling = PreserveReferencesHandling.All,
-                
-            });
-
+            string serializedAdmin = this.adminThing.Serialize();
             return serializedAdmin;
         }
 

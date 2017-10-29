@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Ogresoft
@@ -10,38 +11,38 @@ namespace Ogresoft
     {
         public InventoryHash()
         {
-            innerHash = new Dictionary<Inventory, List<Thing>>();
         }
 
-        private Dictionary<Inventory, List<Thing>> innerHash;
+        public Dictionary<Inventory, List<Thing>> InnerHash { get; set; } = new Dictionary<Inventory, List<Thing>>(); 
 
 
         public void Add(string key)
         {
             Inventory inventory = new Inventory(key);
 
-            innerHash.Add(inventory, new List<Thing>());
+            this.InnerHash.Add(inventory, new List<Thing>());
         }
 
         public void Remove(Thing thing)
         {
-            foreach (List<Thing> things in innerHash.Values)
+            foreach (List<Thing> things in this.InnerHash.Values)
                 things.Remove(thing);
         }
 
         public bool ContainsKey(string key)
         {
-            return this.innerHash.Keys.Any(k => k.Name == key); 
+            return this.InnerHash.Keys.Any(k => k.Name == key); 
         }
 
+        [JsonIgnore]
         public string[] Keys
         {
             get
             {
-                string[] output = new string[innerHash.Count];
+                string[] output = new string[this.InnerHash.Count];
                 int i = 0;
 
-                foreach (Inventory inventory in innerHash.Keys)
+                foreach (Inventory inventory in this.InnerHash.Keys)
                 {
                     output[i] = inventory.Name;
                     i++;
@@ -55,19 +56,25 @@ namespace Ogresoft
         {
             get
             {
-                Inventory inventory = new Inventory(key);
+                List<Inventory> foundKeys = this.InnerHash.Keys.Where(k => k.Name == key).ToList<Inventory>(); 
 
-                return innerHash[inventory] as List<Thing>;
+                if (foundKeys.Count == 0)
+                {
+                    return null; 
+                }
+
+                return this.InnerHash[foundKeys[0]]; 
             }
         }
 
+        [JsonIgnore]
         public List<Thing> Shallow
         {
             get
             {
                 List<Thing> output = new List<Thing>();
 
-                foreach (List<Thing> things in innerHash.Values)
+                foreach (List<Thing> things in this.InnerHash.Values)
                     output.AddRange(things);
 
                 return output;
@@ -78,10 +85,10 @@ namespace Ogresoft
         {
             InventoryHash output = new InventoryHash();
 
-            foreach (Inventory inventory in innerHash.Keys)
+            foreach (Inventory inventory in this.InnerHash.Keys)
             {
                 output.Add(inventory.Name);
-                List<Thing> things = (List<Thing>)innerHash[inventory];
+                List<Thing> things = (List<Thing>)this.InnerHash[inventory];
 
                 foreach (Thing thing in things)
                 {
@@ -95,19 +102,20 @@ namespace Ogresoft
 
         public Opacity GetOpacity(string name)
         {
-            foreach (Inventory inventory in innerHash.Keys)
+            foreach (Inventory inventory in this.InnerHash.Keys)
                 if (inventory == name)
                     return inventory.Opacity;
 
             return Opacity.None;
         }
 
+        [JsonIgnore]
         public string Description
         {
             get
             {
                 string output = "";
-                foreach (Inventory inventory in innerHash.Keys)
+                foreach (Inventory inventory in this.InnerHash.Keys)
                 {
                     if ((inventory.Opacity & Opacity.In) == Opacity.None)
                         continue;
@@ -115,7 +123,7 @@ namespace Ogresoft
                     if (inventory.Name != "in")
                         continue;
 
-                    List<Thing> things = (List<Thing>)innerHash[inventory];
+                    List<Thing> things = (List<Thing>)this.InnerHash[inventory];
 
                     if (things.Count == 0)
                         continue;
@@ -130,7 +138,7 @@ namespace Ogresoft
         public string GetDescription(Thing observer)
         {
             string output = "";
-            foreach (Inventory inventory in innerHash.Keys)
+            foreach (Inventory inventory in this.InnerHash.Keys)
             {
                 if ((inventory.Opacity & Opacity.In) == Opacity.None)
                     continue;
@@ -138,7 +146,7 @@ namespace Ogresoft
                 if (inventory.Name != "in")
                     continue;
 
-                List<Thing> things = (List<Thing>)innerHash[inventory];
+                List<Thing> things = (List<Thing>)this.InnerHash[inventory];
 
                 if (things.Contains(observer))
                 {
@@ -155,17 +163,18 @@ namespace Ogresoft
             return output;
         }
 
+        [JsonIgnore]
         public string FullDescription
         {
             get
             {
                 string output = "";
 
-                foreach (Inventory inventory in innerHash.Keys)
+                foreach (Inventory inventory in this.InnerHash.Keys)
                 {
                     output += inventory.Name + ":\n";
 
-                    List<Thing> things = (List<Thing>)innerHash[inventory];
+                    List<Thing> things = (List<Thing>)this.InnerHash[inventory];
                     string[] indefiniteStrings = Thing.IndefiniteStrings(things);
 
                     for (int j = 0; j < indefiniteStrings.Length; j++)
@@ -175,7 +184,5 @@ namespace Ogresoft
                 return output;
             }
         }
-
-
     }
 }

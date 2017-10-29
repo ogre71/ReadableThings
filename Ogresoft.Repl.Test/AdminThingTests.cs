@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ogresoft;
 using Ogresoft.Parser;
+using Newtonsoft.Json;
 
 namespace Ogresoft.Parser.Test
 {
@@ -136,6 +137,14 @@ namespace Ogresoft.Parser.Test
             repl.Parse("take ugly dead fish", adminThing);
 
             Assert.IsTrue(adminThing.LastMessage != lastMessage); 
+        }
+
+        [TestMethod]
+        public void ShouldSerialize()
+        {
+            var adminThing = new AdminThing("some weirdo");
+            var serializedString = adminThing.Serialize();
+            var newThing = JsonConvert.DeserializeObject<AdminThing>(serializedString); 
         }
     }
 }

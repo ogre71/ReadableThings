@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ogresoft.Tasks", "Tasks\Ogresoft.Tasks.csproj", "{2D5CD74A-4419-4E72-960C-68C33102DD34}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ogresoft.Core", "Ogresoft.Core\Ogresoft.Core.csproj", "{01533FDB-094B-4640-8623-2B7580D6500C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ogresoft.Core.Test", "Ogresoft.Core.Test\Ogresoft.Core.Test.csproj", "{51EEE757-E71B-4D97-8754-95A1B956D858}"
@@ -24,10 +22,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2D5CD74A-4419-4E72-960C-68C33102DD34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2D5CD74A-4419-4E72-960C-68C33102DD34}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2D5CD74A-4419-4E72-960C-68C33102DD34}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2D5CD74A-4419-4E72-960C-68C33102DD34}.Release|Any CPU.Build.0 = Release|Any CPU
 		{01533FDB-094B-4640-8623-2B7580D6500C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{01533FDB-094B-4640-8623-2B7580D6500C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01533FDB-094B-4640-8623-2B7580D6500C}.Release|Any CPU.ActiveCfg = Release|Any CPU

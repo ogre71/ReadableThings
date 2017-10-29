@@ -31,7 +31,5 @@ namespace Test.Ogresoft.ReadableThings
 
             Assert.IsTrue(thisThing.AllowUseAlone("l"));
         }
-
-
     }
 }

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Ogresoft
 {
@@ -20,10 +20,13 @@ namespace Ogresoft
         public delegate bool UseWithAdverbialPhraseDelegate(Thing indObj, string preposition);
         public delegate bool UseWithStrDelegate(string str);
 
+        [JsonIgnore]
         public Dictionary<string, Dictionary<Type, Delegate>> _verbHash = new Dictionary<string, Dictionary<Type, Delegate>>();
 
+        [JsonIgnore]
         public Dictionary<string, string> _aliases = new Dictionary<string, string>();
 
+        [JsonIgnore]
         public Dictionary<string, List<string>> _adverbs = new Dictionary<string, List<string>>();
 
         public void AddVerb(string verbName, Delegate thisDelegate)

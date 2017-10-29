@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace Ogresoft
@@ -7,6 +8,11 @@ namespace Ogresoft
 
     public partial class Thing : NameBase
     {
+        public static object  DeSerialize(string input) 
+        {
+            return JsonConvert.DeserializeObject(input);
+        }
+
         public static Thing Find(string name, List<Thing> container)
         {
             List<Thing> output = FindThings(name, container);
@@ -138,24 +144,6 @@ namespace Ogresoft
 
         public Thing()
         {
-            //MethodInfo[] methods = this.GetType().GetMethods(System.Reflection.BindingFlags.Public | BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            //foreach (MethodInfo method in methods)
-            //{
-            //    object[] attributes = method.GetCustomAttributes(typeof(VerbAttribute), true);
-            //    foreach (VerbAttribute attribute in attributes)
-            //    {
-            //        if (!_verbHash.ContainsKey(attribute.Name))
-            //            _verbHash.Add(attribute.Name, new Dictionary<Type, Delegate>());
-
-            //        _verbHash[attribute.Name].Add(attribute.DelegateType, Delegate.CreateDelegate(attribute.DelegateType, this, method));
-            //    }
-
-            //    object[] initializerAttributes = method.GetCustomAttributes(typeof(VerbInitializerAttribute), true);
-            //    foreach (VerbInitializerAttribute attribute in initializerAttributes)
-            //    {
-            //        method.Invoke(this, new object[] { });
-            //    }
-            //}
         }
 
         public Thing(string name)
@@ -164,10 +152,9 @@ namespace Ogresoft
             this.Name = name;
         }
 
-        public Thing(string name, Guid guid)
+        private void OnDeserialized()
         {
-            this.guid = guid;
-            this.Name = name;
+
         }
 
         /// <summary>
@@ -177,8 +164,7 @@ namespace Ogresoft
 
         protected void OnMoving(Thing destination)
         {
-            if (Moving != null)
-                Moving(this, destination);
+            Moving?.Invoke(this, destination);
         }
 
         /// <summary>
@@ -188,10 +174,8 @@ namespace Ogresoft
 
         protected void OnMoved(Thing destination)
         {
-            if (Moved != null)
-                Moved(this, destination);
+            Moved?.Invoke(this, destination);
         }
-
 
         /// <summary>
         /// Event that is fired when this thing accepts another thing into its inventory.
@@ -200,8 +184,7 @@ namespace Ogresoft
 
         protected void OnAccepted(Thing acceptedThing)
         {
-            if (Accepted != null)
-                Accepted(this, null);
+            Accepted?.Invoke(this, null);
         }
 
         /// <summary>
@@ -211,8 +194,7 @@ namespace Ogresoft
 
         protected void OnReleased(Thing releasedThing)
         {
-            if (Released != null)
-                Released(this, releasedThing);
+            Released?.Invoke(this, releasedThing);
         }
 
         public event ThingEventHandler Disposing;
@@ -234,8 +216,7 @@ namespace Ogresoft
 
             this.disposed = true;
 
-            if (Disposing != null)
-                Disposing(this, this);
+            Disposing?.Invoke(this, this);
 
         }
 
@@ -250,57 +231,16 @@ namespace Ogresoft
             get { return disposed; }
         }
 
-        private string identity;
-        public string Identity
-        {
-            get { return identity; }
-            set { identity = value; }
-        }
+        public Thing Container { get; set; }
 
-        private Guid guid = new Guid();
-        /// <summary>
-        /// A guid uniquely identifying this particular instance of Thing. 
-        /// </summary>
-        public Guid Guid
-        {
-            get { return guid; }
-        }
-
-        private Thing container;
-        public Thing Container
-        {
-            get { return container; }
-            set
-            {
-                container = value;
-
-                if (value != null)
-                    containerGuid = value.Guid;
-            }
-        }
-
-        private Guid containerGuid;
-        /// <summary>
-        /// The Guid of the Thing's Container, so that this thing can be placed in the container after deserialization. 
-        /// </summary>
-        public Guid ContainerGuid
-        {
-            get { return containerGuid; }
-        }
-
-        private List<string> locations;
         /// <summary>
         /// This is locations where the Thing is contained, not locations that the thing can contain.
         /// </summary>
-        public List<string> Locations
-        {
-            get { return locations; }
-            set { locations = value; }
-        }
+        public List<string> Locations { get; set; }
 
         public Thing GetRootContainer()
         {
-            Thing currentContainer = container;
+            Thing currentContainer = this.Container;
 
             while (currentContainer.Container != null)
                 currentContainer = currentContainer.Container;
@@ -310,18 +250,18 @@ namespace Ogresoft
 
         public Thing GetOutermostViewableContainer()
         {
-            Thing currentContainer = container;
+            Thing currentContainer = this.Container;
             while (true)
             {
-                if (currentContainer.container == null)
+                if (currentContainer.Container == null)
                     break;
 
-                if (currentContainer.locations.Count == 0)
+                if (currentContainer.Locations.Count == 0)
                     break;
 
-                foreach (string location in container.locations)
+                foreach (string location in this.Container.Locations)
                 {
-                    if ((container.Inventory.GetOpacity(location) & Opacity.Out) == Opacity.None)
+                    if ((this.Container.Inventory.GetOpacity(location) & Opacity.Out) == Opacity.None)
                         break;
                 }
 
@@ -333,48 +273,27 @@ namespace Ogresoft
 
         public List<Thing> GetObservers()
         {
-            if (container == null)
+            if (this.Container == null)
                 return null;
 
-            return container.GetObserversFor(this);
+            return this.Container.GetObserversFor(this);
         }
 
         public virtual void Tell(string message)
         {
         }
 
-        private bool isObservable = true;
         /// <summary>
         /// Indicates that the thing can be seen by normal means. 
         /// </summary>
-        public virtual bool IsObservable
-        {
-            get { return isObservable; }
-            set { isObservable = value; }
-        }
+        public virtual bool IsObservable { get; set; } = true;
 
-        private bool isObserver;
         /// <summary>
         /// Indicates that this Thing is interested in receiving messages about the environment.
         /// </summary>
-        public virtual bool IsObserver
-        {
-            get
-            {
-                if (isObserver == true)
-                    return true;
+        public virtual bool IsObserver { get; set; } = false;
 
-                return false;
-            }
-            set { isObserver = value; }
-        }
-
-        private InventoryHash locationMap = new InventoryHash();
-        public InventoryHash Inventory
-        {
-            get { return locationMap; }
-            set { locationMap = value; }
-        }
+        public InventoryHash Inventory { get; set; } = new InventoryHash(); 
 
         protected string defaultKey = "in";
         /// <summary>
@@ -385,14 +304,9 @@ namespace Ogresoft
             get { return defaultKey; }
         }
 
-        public string[] InventoryLocations
-        {
-            get { return locationMap.Keys; }
-        }
-
         public List<Thing> this[string index]
         {
-            get { return locationMap[index]; }
+            get { return this.Inventory[index]; }
         }
 
         //Allows the inventoried things to observe outside of this container. 
@@ -401,7 +315,7 @@ namespace Ogresoft
         {
             get
             {
-                if (this.container == null)
+                if (this.Container == null)
                     return opacity & Opacity.In;
 
                 return opacity;
@@ -410,10 +324,10 @@ namespace Ogresoft
 
         public bool MatchKey(string testKey)
         {
-            for (int i = 0; i < locationMap.Keys.Length; i++)
-                if (locationMap.Keys[i].StartsWith(testKey))
+            for (int i = 0; i < this.Inventory.Keys.Length; i++)
+                if (this.Inventory.Keys[i].StartsWith(testKey))
                 {
-                    testKey = locationMap.Keys[i];
+                    testKey = this.Inventory.Keys[i];
                     return true;
                 }
 
@@ -435,6 +349,7 @@ namespace Ogresoft
             return output;
         }
 
+        [JsonIgnore]
         /// <summary>
         /// The Inventory that is reachable with the 'my' keyword. 
         /// </summary>
@@ -442,7 +357,7 @@ namespace Ogresoft
         {
             get
             {
-                List<Thing> retVal = locationMap.Shallow;
+                List<Thing> retVal = this.Inventory.Shallow;
 
                 foreach (Thing thing in retVal)
                 {
@@ -454,14 +369,16 @@ namespace Ogresoft
             }
         }
 
+        [JsonIgnore]
         /// <summary>
         /// The immediate inventory of this Thing. 
         /// </summary>
         public List<Thing> ShallowInventory
         {
-            get { return locationMap.Shallow; }
+            get { return this.Inventory.Shallow; }
         }
 
+        [JsonIgnore]
         /// <summary>
         /// All the inventory and sub-inventory of this item. 
         /// </summary>
@@ -471,9 +388,9 @@ namespace Ogresoft
             {
                 List<Thing> things = new List<Thing>();
 
-                things.AddRange(locationMap.Shallow);
+                things.AddRange(this.Inventory.Shallow);
 
-                foreach (Thing thing in locationMap.Shallow)
+                foreach (Thing thing in this.Inventory.Shallow)
                     things.AddRange(thing.DeepInventory);
 
                 return things;
@@ -482,21 +399,21 @@ namespace Ogresoft
 
         private void Add(string location, Thing thing)
         {
-            if (locationMap[location] == null)
-                locationMap.Add(location);
+            if (this.Inventory[location] == null)
+                this.Inventory.Add(location);
 
-            locationMap[location].Add(thing);
+            this.Inventory[location].Add(thing);
         }
 
         protected void Add(string location)
         {
-            if (locationMap[location] == null)
-                locationMap.Add(location);
+            if (this.Inventory[location] == null)
+                this.Inventory.Add(location);
         }
 
         protected void Remove(Thing thing)
         {
-            locationMap.Remove(thing);
+            this.Inventory.Remove(thing);
         }
 
         protected void Remove(Thing thing, string location)
@@ -573,7 +490,7 @@ namespace Ogresoft
             if (!WillAllowRelease(destination, location))
                 return false;
 
-            if (container != null && !container.WillRelease(this))
+            if (this.Container != null && !this.Container.WillRelease(this))
                 return false;
 
             if (!destination.WillAccept(this, location))
@@ -586,19 +503,14 @@ namespace Ogresoft
 
             OnMoving(destination);
 
-            if (container != null)
-                container.Release(this);
+            if (this.Container != null)
+                this.Container.Release(this);
 
             destination.Accept(this, location);
 
             OnMoved(destination);
 
             return true;
-        }
-
-        public override string Description
-        {
-            get { return base.Description; }
         }
 
         public virtual string GetDescription(Thing observer)
@@ -613,7 +525,15 @@ namespace Ogresoft
             thing.Inventory = this.Inventory.Clone();
             return thing;
         }
+
+        public string Serialize()
+        {
+            string serializedThing = JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings
+            {
+                PreserveReferencesHandling = PreserveReferencesHandling.All
+            });
+
+            return serializedThing;
+        }
     }
 }
-
-
