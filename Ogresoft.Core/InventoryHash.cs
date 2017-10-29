@@ -184,5 +184,13 @@ namespace Ogresoft
                 return output;
             }
         }
+
+        public void SetContainer(Thing container)
+        {
+            foreach(KeyValuePair<Inventory, List<Thing>> pair in this.InnerHash)
+            {
+                pair.Value.ForEach(thing => thing.Container = container); 
+            }
+        }
     }
 }

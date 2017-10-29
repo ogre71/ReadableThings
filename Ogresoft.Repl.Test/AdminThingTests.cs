@@ -144,7 +144,15 @@ namespace Ogresoft.Parser.Test
         {
             var adminThing = new AdminThing("some weirdo");
             var serializedString = adminThing.Serialize();
-            var newThing = JsonConvert.DeserializeObject<AdminThing>(serializedString); 
+        }
+
+        [TestMethod]
+        public void ShouldDeSerialize()
+        {
+            var adminThing = new AdminThing("some weirdo");
+            var serializedString = adminThing.Serialize();
+            var newThing = Thing.DeSerialize<AdminThing>(serializedString);
+            Assert.IsTrue(newThing != null);
         }
     }
 }

@@ -8,9 +8,11 @@ namespace Ogresoft
 
     public partial class Thing : NameBase
     {
-        public static object  DeSerialize(string input) 
+        public static T DeSerialize<T>(string input) where T : Thing
         {
-            return JsonConvert.DeserializeObject(input);
+            var deserializedThing = JsonConvert.DeserializeObject<T>(input);
+            deserializedThing.PostDeserialize();
+            return deserializedThing; 
         }
 
         public static Thing Find(string name, List<Thing> container)
@@ -231,6 +233,7 @@ namespace Ogresoft
             get { return disposed; }
         }
 
+        [JsonIgnore]
         public Thing Container { get; set; }
 
         /// <summary>
@@ -534,6 +537,11 @@ namespace Ogresoft
             });
 
             return serializedThing;
+        }
+
+        public void PostDeserialize()
+        {
+            this.Inventory.SetContainer(this); 
         }
     }
 }
