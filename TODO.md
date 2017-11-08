@@ -1,3 +1,6 @@
+# 11/08/2017 
+# Installed Powershell core. Much awesomeness. Found a Stack Overflow to answer too. 
+#
 # 10/28/2017 
 # Added OrdinaryThing to hold default verb implementations, like take
 # Removed Non .net core
