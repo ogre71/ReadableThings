@@ -108,6 +108,14 @@ namespace Ogresoft.Parser.Test
             repl.Parse("l", repl.AdminThing);
         }
 
+        [TestMethod]
+        public void CapitalizedLookShouldWork()
+        {
+            Parser repl = new Parser();
+            repl.Parse("Look", repl.AdminThing); 
+
+            Assert.IsFalse(repl.AdminThing.LastMessage == string.Format(Parser.Garbage, "Look"));
+        }
 
         [TestMethod]
         public void ShouldPutRockOnTable()

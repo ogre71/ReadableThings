@@ -65,7 +65,7 @@ namespace Ogresoft.Parser
 
         public void Parse(string input, Thing doer)
         {
-            string[] words = input.Split(' ');
+            string[] words = input.ToLower().Split(' ');
 
             if (words.Length == 0)
             {
